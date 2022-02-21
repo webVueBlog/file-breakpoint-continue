@@ -24,5 +24,6 @@ module.exports = class {
 		// 服务器端没有这个文件
 		// 拿到post 的data, bodyParser
 		const data = await resolvePost(req);
+		const { fileHash, filename } = data;
 	}
 }
