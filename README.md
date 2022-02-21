@@ -109,11 +109,18 @@ $ vue create vue-upload-big-file
 yarn add element-ui
 ```
 
+在生成文件切片时，需要给每个切片一个标识作为hash，这里暂时使用 文件名+下标，这样后端可以知道当前切片是第几个切片，用于之后的合并切片
 
+随后调用uploadChunks上传所有的文件切片，将文件切片，切片hash，以及文件名放入
+formData中，再调用上一步的request函数返回一个promise，最后调用Promise.all并发上传所有的切片
 
+hash，文件名，并不是唯一的.
 
+不同名的图片，内容是一样。针对文件内容进行hash计算
 
+hash 前端算一个，单向. 内容做hash计算
 
+后端拿到内容算hash一样。不一样就要重传。
 
 
 

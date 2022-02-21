@@ -28,6 +28,24 @@ export default {
 	// }  
  //  },
   methods: {
+	  async calculateHash(fileChunkList) {
+		  return new Promise(resolve => {
+			  // 封装 花时间的任务
+			  // web workers
+			  // js 单线程 UI 主线程
+			  // html5 web workers 单独开一个线程 独立于worker
+			  // 回调 不会影响原来的UI
+			  // hash.js负责计算hash
+			  // 启动了一个线程 优化 图片的计算啊，等
+			  this.container.worker = new Worker('/hash.js');
+			  // 事件订阅的形式
+			  this.container.worker.postMessage({ fileChunkList });
+			  // 回调函数 onmessage打印出来
+			  this.container.worker.onmessage = e => {
+				  console.log(e.data);
+			  }
+		  })
+	  },
 	  async handleUpload(e) {
 		  // 大量的任务
 		  if (!this.container.file) return;
@@ -40,6 +58,8 @@ export default {
 		  // file: Blob {size: 69306, type: ''}
 		  // [[Prototype]]: Object
 		  // length: 1
+		  // 计算hash
+		  this.container.hash = await this.calculateHash(fileChunkList);
 	  },
 	  // es6可少传参数
 	  createFileChunk(file, size = SIZE) {
