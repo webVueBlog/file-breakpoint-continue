@@ -86,6 +86,10 @@ type: "image/png"
 webkitRelativePath: ""j
 ```
 
+```js
+yarn add multiparty
+// 表单文件上传
+```
 
 
 
