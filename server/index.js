@@ -21,6 +21,7 @@ const pipeStream = (path, writeStream) =>
 		// 创建一个可读流
 		const readStream = fse.createReadStream(path); 
 		readStream.on("end", () => {
+			// fse.unlinkSync(path); // 删除切片
 			resolve();
 		})
 		readStream.pipe(writeStream);
@@ -56,6 +57,7 @@ const mergeFileChunk = async (filePath, filename, size) => {
 		)
 	)
 	console.log('文件合并成功');
+	// fse.rmdirSync(chunkDir); // 删除target/yb
 }
 
 mergeFileChunk(filePath, filename, 0.5*1024*1024);
