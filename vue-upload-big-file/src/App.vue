@@ -31,7 +31,6 @@
 		}),
 		//  data() {
 		// return() {
-			
 		// }  
 		//  },
 		methods: {
