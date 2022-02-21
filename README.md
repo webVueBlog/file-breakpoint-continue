@@ -89,6 +89,24 @@ webkitRelativePath: ""j
 ```js
 yarn add multiparty
 // 表单文件上传
+
+$ vue --version
+@vue/cli 4.5.13
+vue create vue-upload-big-file
+
+$ vue create vue-upload-big-file
+? Please pick a preset: (Use arrow keys)
+? Please pick a preset: Manually select features
+? Check the features needed for your project: (Press <space> to select, <a> to t
+? Check the features needed for your project: Choose Vue version, Babel
+? Choose a version of Vue.js that you want to start the project with (Use arrow
+? Choose a version of Vue.js that you want to start the project with 2.x
+? Where do you prefer placing config for Babel, ESLint, etc.? (Use arrow keys)
+> In dedicated config files
+? Where do you prefer placing config for Babel, ESLint, etc.? In package.json
+? Save this as a preset for future projects? (y/N) n
+
+yarn add element-ui
 ```
 
 
