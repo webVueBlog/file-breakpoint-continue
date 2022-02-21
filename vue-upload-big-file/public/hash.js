@@ -20,7 +20,7 @@ self.onmessage = e => {
 			if (count === fileChunkList.length)
 			{
 				self.postMessage({
-					percent: 100,
+					percentage: 100,
 					hash: spark.end()
 				});
 				self.close(); // 关闭当前线程
