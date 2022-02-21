@@ -146,7 +146,6 @@
 			}
 		},
 		components: {
-
 		}
 	}
 </script>
