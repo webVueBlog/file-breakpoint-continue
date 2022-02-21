@@ -72,6 +72,7 @@ export default {
 			  this.container.worker.onmessage = e => {
 				  // console.log(e.data);
 				  const { percentage, hash } = e.data;
+				  console.log(percentage, '---');
 				  this.hashPercentage = percentage;
 				  if (hash) {
 					  resolve(hash);
