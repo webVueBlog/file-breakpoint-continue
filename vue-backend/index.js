@@ -14,7 +14,6 @@ server.on("request", async (req, res) => {
     return;
   }
 
-
   if (req.url == '/verify') {
     // res.end('verify');
     await controller.handleVerifyUpload(req, res)
