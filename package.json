@@ -1,0 +1,8 @@
+{
+  "name": "file-breakpoint-continue",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/webVueBlog/file-breakpoint-continue.git",
+  "author": "webVueBlog <2979986590@qq.com>",
+  "license": "MIT"
+}
