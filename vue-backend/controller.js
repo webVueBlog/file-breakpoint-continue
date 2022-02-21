@@ -1,7 +1,11 @@
 
 
 const path = require('path');
+const fs = require("fs-extra");
 const UPLOAD_DIR = path.resolve(__dirname, '..', 'target');
+
+const extractExt = filename =>
+	filename.slice(filename.lastIndexOf("."), filename.length)
 
 const resolvePost = req =>
 	new Promise(resolve => {
@@ -25,5 +29,25 @@ module.exports = class {
 		// 拿到post 的data, bodyParser
 		const data = await resolvePost(req);
 		const { fileHash, filename } = data;
+		// 通过文件名拿后缀
+		const ext = extractExt(filename);
+		console.log(ext);
+		const filePath = path.resolve(UPLOAD_DIR, `${fileHash}${ext}`);
+		console.log(filePath);
+		
+		if (fse.existsSync(filePath)) {
+			res.end(
+				JSON.stringify({
+					shouldUpload: false
+				})
+			)
+		} else {
+			res.end(
+				JSON.stringify({
+					shouldUpload: true,
+					uploadedList: []
+				})
+			)
+		}
 	}
 }

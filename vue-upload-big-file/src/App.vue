@@ -100,6 +100,7 @@ export default {
 			this.container.file.name,
 			this.container.hash
 		  );
+		  console.log(shouldUpload, uploadedList);
 	  },
 	  async verifyUpload(filename, fileHash) {
 		  const { data } = await this.request({
@@ -114,6 +115,7 @@ export default {
 				   fileHash
 			   })
 		  })
+		  return JSON.parse(data);
 	  },
 	  // es6可少传参数
 	  createFileChunk(file, size = SIZE) {
