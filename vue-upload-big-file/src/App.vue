@@ -254,6 +254,8 @@
 						filename: this.container.file.name
 					})
 				})
+				this.$message.success('上传成功');
+				this.status = Status.wait
 			},
 			createProgressHandler (item) {
 			  return e => {
@@ -293,6 +295,8 @@
 				const [file] = e.target.files; // 拿到第一个文件
 				// console.log(e.target.files);
 				this.container.file = file;
+				this.resetData();
+				Object.assign(this.$data, this.$options.data());
 			}
 		},
 	}

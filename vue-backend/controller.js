@@ -26,7 +26,7 @@ const mergeFileChunk = async (filePath, fileHash, size) => {
         path.resolve(chunkDir, chunkPath),
         fse.createWriteStream(filePath, {
           start: index * size,
-          end: (index + 1) * size
+          end: (index + 1) * size 
         })
     ))
   )
