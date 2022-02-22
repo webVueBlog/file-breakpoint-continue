@@ -31,6 +31,11 @@ const mergeFileChunk = async (filePath, fileHash, size) => {
     ))
   )
 }
+// 返回已经上传切片名列表
+const createUploadedList = async fileHash =>
+	fse.existsSync(path.resolve(UPLOAD_DIR, fileHash))
+	 ? await fse.readdir(path.resolve(UPLOAD_DIR, fileHash))
+	 : [];
 
 const resolvePost = req => 
   new Promise(resolve => {
@@ -66,7 +71,7 @@ module.exports = class {
       res.end(
         JSON.stringify({
           shouldUpload: true,
-          uploadedList: []
+          uploadedList: await createUploadedList(fileHash)
         })
       )
     }

@@ -61,7 +61,8 @@
 			}
 		},
 		watch: {
-		 uploadPercentage(now) { // now 新的值  有变化
+			// 创建一个“假”的进度条
+			uploadPercentage(now) { // now 新的值  有变化
 				if (now > this.fakeUploadPercentage) {
 					this.fakeUploadPercentage = now
 				}
@@ -81,7 +82,9 @@
 		methods: {
 			async handleResume() {
 				this.status = Status.uploading;
-				const { uploadedList } = await this.verifyUpload(
+				const {
+					uploadedList
+				} = await this.verifyUpload(
 					this.container.file.name,
 					this.container.hash
 				)
@@ -92,7 +95,7 @@
 				this.resetData();
 			},
 			resetData() {
-				this.requestList.forEach(xhr => xhr ? xhr.abort(): null)
+				this.requestList.forEach(xhr => xhr ? xhr.abort() : null)
 				this.requestList = [];
 				if (this.container.worker) {
 					// hash 计算过程中
@@ -100,38 +103,38 @@
 				}
 			},
 			request({
-			  url,
-			  method = 'POST',
-			  data,
-			  onProgress = e => e,
-			  headers = {},
-			  requestList //   上传的文件列表
+				url,
+				method = 'POST',
+				data,
+				onProgress = e => e,
+				headers = {},
+				requestList //   上传的文件列表
 			}) {
-			  return new Promise(resolve => {
-			    const xhr = new XMLHttpRequest(); // js ajax 对象
-			    xhr.open(method, url); // 请求
-			    xhr.upload.onprogress = onProgress;
-			    Object.keys(headers).forEach(key => 
-			      xhr.setRequestHeader(key, headers[key]) // 请求加头
-			    );
-			    xhr.send(data);
-			    xhr.onload = e => {
-			      console.log(e.target.response, '+++++++++++');
-			      if (requestList) {
-			        // xhr 使命完成了
-			        const xhrIndex = requestList.findIndex(item => item === xhr);
-			        requestList.splice(xhrIndex, 1);
-			      }
-			      resolve({
-			        data: e.target.response
-			      });
-			    }
-			    if (requestList) {
-			     requestList.push(xhr);  // 每个请求
-			     console.log(requestList);
-			    }
-			  });
-			
+				return new Promise(resolve => {
+					const xhr = new XMLHttpRequest(); // js ajax 对象
+					xhr.open(method, url); // 请求
+					xhr.upload.onprogress = onProgress;
+					Object.keys(headers).forEach(key =>
+						xhr.setRequestHeader(key, headers[key]) // 请求加头
+					);
+					xhr.send(data);
+					xhr.onload = e => {
+						console.log(e.target.response, '+++++++++++');
+						if (requestList) {
+							// xhr 使命完成了
+							const xhrIndex = requestList.findIndex(item => item === xhr);
+							requestList.splice(xhrIndex, 1);
+						}
+						resolve({
+							data: e.target.response
+						});
+					}
+					if (requestList) {
+						requestList.push(xhr); // 每个请求
+						console.log(requestList);
+					}
+				});
+
 			},
 			async calculateHash(fileChunkList) {
 				return new Promise(resolve => {
@@ -202,14 +205,20 @@
 					chunk: file,
 					size: file.size,
 					percentage: uploadedList.includes(index) ? 100 : 0
+					// 切片进度条
 					// 当前切片是否已经上传过
 				}));
 				await this.uploadChunks(uploadedList);
 			},
+			// 上传切片，同时过滤已上传的切片
 			async uploadChunks(uploadedList = []) {
 				// console.log(this.data);
 				// 数据数据 this.data => 请求数组 => 并发
 				const requestList = this.data
+					.filter(({
+						hash
+					}) => !uploadedList.includes(hash))
+					// 上传切片，同时过滤已上传的切片
 					.map(({
 						chunk,
 						hash,
@@ -257,11 +266,11 @@
 				this.$message.success('上传成功');
 				this.status = Status.wait
 			},
-			createProgressHandler (item) {
-			  return e => {
-			    item.percentage = parseInt(String((e.loaded/e.total) * 100));
-			    console.log(e.loaded, e.total, '----------');
-			  }
+			createProgressHandler(item) {
+				return e => {
+					item.percentage = parseInt(String((e.loaded / e.total) * 100));
+					console.log(e.loaded, e.total, '----------');
+				}
 			},
 			async verifyUpload(filename, fileHash) {
 				const {
@@ -294,6 +303,7 @@
 				// 分割文件
 				const [file] = e.target.files; // 拿到第一个文件
 				// console.log(e.target.files);
+				if (!file) return;
 				this.container.file = file;
 				this.resetData();
 				Object.assign(this.$data, this.$options.data());
