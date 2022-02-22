@@ -86,7 +86,7 @@ module.exports = class {
       const [hash] = fields.hash;
       const [fileHash] = fields.fileHash;
       const [filename] = fields.filename;
-      // console.log(chunk, hash, fileHash, filename);
+      console.log(chunk, hash, fileHash, filename);
       const filePath = path.resolve(UPLOAD_DIR, `${fileHash}${extractExt(filename)}`)
       console.log(filePath);
       const chunkDir = path.resolve(UPLOAD_DIR, fileHash);

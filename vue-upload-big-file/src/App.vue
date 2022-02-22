@@ -167,7 +167,7 @@
 					this.container.hash
 				);
 				console.log(shouldUpload, uploadedList);
-				if (shouldUpload) {
+				if (!shouldUpload) {
 					this.$message.success("秒传：上传成功");
 					this.status = Status.wait;
 					return;
