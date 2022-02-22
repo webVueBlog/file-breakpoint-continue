@@ -3,8 +3,8 @@
 		<div>
 			<input type="file" @change="handleFileChange" />
 			<el-button @click="handleUpload">上传</el-button>
-<!-- 			<el-button @click="handleResume">恢复</el-button>
-			<el-button @click="handlePause">暂停</el-button> -->
+			<el-button @click="handleResume">恢复</el-button>
+			<el-button @click="handlePause">暂停</el-button>
 		</div>
 		<div>
 			<div>计算文件hash</div>
@@ -79,6 +79,21 @@
 			requestList: [] // xhr  
 		}),
 		methods: {
+			handleResume() {
+				
+			},
+			handlePause() {
+				this.status = Status.pause // 暂停状态
+				this.resetData();
+			},
+			resetData() {
+				this.requestList.forEach(xhr => xhr ? xhr.abort(): null)
+				this.requestList = [];
+				if (this.container.worker) {
+					// hash 计算过程中
+					this.container.worker.onmessage = null;
+				}
+			},
 			request({
 			  url,
 			  method = 'POST',
