@@ -758,3 +758,4 @@ Q: 处理暂停恢复后，进度条后退的问题
 定义临时变量fakeUploadProgress在每次暂停时存储当前的进度，在上传恢复后，
 当当前进度大于fakeUploadProgress的进度，再进行赋值即可。
 
+ok!
