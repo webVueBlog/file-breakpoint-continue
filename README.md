@@ -4,7 +4,7 @@ Vue 大文件上传和断点续传(帮忙点赞star谢谢，感谢♥)
 
 文件上传是开发中的难点， 大文件上传及断点续传 难点中的细节及核心技术点。
 
-<img src="./assets/20220222102728.png" style="display: flex; margin: auto; width: 80%;" />
+<img src="./assets/20220222102728.png" style="display: flex; margin: auto; width: 100%;" />
 
 面试官在考察es6文件对象、ajax 上传， async await promise 、后台文件存储、
 流操作等全面的全栈技能的同时， 提升难度到大文件和断点续传， 

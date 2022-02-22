@@ -79,8 +79,13 @@
 			requestList: [] // xhr  
 		}),
 		methods: {
-			handleResume() {
-				
+			async handleResume() {
+				this.status = Status.uploading;
+				const { uploadedList } = await this.verifyUpload(
+					this.container.file.name,
+					this.container.hash
+				)
+				await this.uploadChunks(uploadedList)
 			},
 			handlePause() {
 				this.status = Status.pause // 暂停状态
@@ -112,7 +117,7 @@
 			    xhr.send(data);
 			    xhr.onload = e => {
 			      console.log(e.target.response, '+++++++++++');
-			      if (requestList) { 
+			      if (requestList) {
 			        // xhr 使命完成了
 			        const xhrIndex = requestList.findIndex(item => item === xhr);
 			        requestList.splice(xhrIndex, 1);
@@ -231,7 +236,24 @@
 							requestList: this.requestList
 						}))
 				await Promise.all(requestList);
+				// 之前上传的切片数量+本次上传的切片数量 = 所有切片数量
+				if (uploadedList.length + requestList.length == this.data.length) {
+					await this.mergeRequest();
+				}
 				console.log('可以发送合并请求了');
+			},
+			async mergeRequest() {
+				await this.request({
+					url: "http://localhost:3000/merge",
+					headers: {
+						"content-type": "application/json"
+					},
+					data: JSON.stringify({
+						size: SIZE,
+						fileHash: this.container.hash,
+						filename: this.container.file.name
+					})
+				})
 			},
 			createProgressHandler (item) {
 			  return e => {
