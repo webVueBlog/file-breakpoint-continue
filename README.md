@@ -957,7 +957,3 @@ self.onmessage = e => {
 ## 源代码
 
 - **[file-breakpoint-continue](https://github.com/webVueBlog/file-breakpoint-continue)**
-
-## 参与
-
--   我正在参与掘金技术社区创作者签约计划招募活动，[点击链接报名投稿](https://juejin.cn/post/7112770927082864653 "https://juejin.cn/post/7112770927082864653")。
