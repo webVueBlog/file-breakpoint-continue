@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<input type="file" id="file">
+		<script>
+			// 请求封装
+			// http并发文件上传 blob上传 chunk POST
+			// 当blob Promise.All 再发送一个merge的请求 /merge
+			function request({
+				url,
+				method = 'POST',
+				data,
+				headers = {},
+				requestList // 上传的文件列表
+			}) {
+				return new Promise(resolve => {
+					const xhr = new XMLHttpRequest(); // js ajax 对象
+					xhr.open(method, url); // 请求
+					Object.keys(headers).forEach(key => {
+						xhr.setRequestHeader(key, headers[key]) // 请求加头信息
+					})
+					xhr.send(data);
+					xhr.onload = e => {
+						// 事件监听
+						resolve({
+							data: e.target.response
+						})
+					}
+				})
+			}
+
+			const mergeRequest = async () => {
+					await request({
+							url: 'http://localhost:3001/merge',
+							headers: {
+									"content-type": "application/json"
+							}
+					});
+					alert('上传成功');
+			}
+
+			document.getElementById('file')
+			.addEventListener('change', async (event) => {
+				const file = event.target.files[0]; // es6 文件对象
+				// console.log(file);
+				const file_name = file.name.split('.')[0];
+				// console.log(Object.prototype.toString.call(file)); // [object File]
+				// console.log(Object.prototype.toString.call(file.slice(0, 102400))); // [object Blob]
+				let cur = 0, size = 1024*1024; // 1M
+				// blob等待上传的对象，所有的切片上传完
+				const fileChunkList = []; // blob数组
+				while(cur < file.size) {
+					fileChunkList.push({
+						// cur start offset end
+						file: file.slice(cur, cur + size)
+					});
+					cur += size;
+				}
+				console.log(fileChunkList)
+				const requestList = fileChunkList.map(({file}, index) => {
+					// 请求的数组
+					const formData = new FormData(); // js post form
+					formData.append('chunk', file);
+					formData.append('filename', `${file_name}-${index}`);
+					return {
+						formData
+					};
+				})
+				.map(async ({ formData }) => request({
+					 url: 'http://localhost:3000', // 前后端的api
+						data: formData
+					}))
+				await Promise.all(requestList); // 并发吧
+				// console.log(requestList);
+				await mergeRequest();
+			})
+		</script>
+	</body>
+</html>
