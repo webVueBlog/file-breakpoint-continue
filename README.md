@@ -1,5 +1,7 @@
 ## 实现大文件上传和断点续传实践经验总结
 
+💬 微信交流: xiaoda0423⚡ 👉 如果你有问题
+
 实现文件上传，大文件，以及如何断点续传等技术实现细节，我会每个细节，每个代码都写出来，一起调试，一起跟着步骤一一实现。
 
 ![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1913f810083f4f74aa7063fa1bbe2cad~tplv-k3u1fbpfcp-watermark.image?)
